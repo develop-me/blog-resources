@@ -5,10 +5,12 @@
 
 .base-calc--output {
     font-size: 60px;
+    text-align: center;
 }
 
 .base-calc--sum {
-    font-size: 15px;
+    font-size: 18px;
+    text-align: center;
 }
 
 .base-calc--select {
@@ -18,10 +20,10 @@
 
 .base-calc--input-container {
     display: flex;
+    justify-content: center;
 }
 
 .base-calc--field {
-    border: 1px solid #333;
     color: #333;
     font-family: monospace;
     font-size: 60px;
@@ -40,4 +42,12 @@
 .base-calc--input p {
     font-size: 15px;
     text-align: center;
+}
+
+.base-calc--table {
+    width: 100%;
+}
+
+.base-calc--table td {
+    padding: 3px 10px;
 }

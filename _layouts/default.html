@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>{{ page.title }}</title>
+        <meta name="description" content="">
+        <link rel="stylesheet" href="{{ page.css }}" />
+        <script defer src="{{ page.js }}"></script>
+        <link rel="stylesheet" href="https://developme.training/wp-content/themes/developme-oct-2015/css/all.min.css">
+    </head>
+    <body class="container">
+        <main class="col-sm-8 col-sm-offset-2 blog-main">
+            <article class="post type-post format-standard">
+                <header class="entry-header">
+                    <div class="entry-meta">
+                        <h1>{{ page.title }}</h1>
+                    </div>
+                </header>
+
+                <div class="entry-content">
+                    {{ content }}
+                </div>
+            </article>
+        </main>
+  </body>
+</html>

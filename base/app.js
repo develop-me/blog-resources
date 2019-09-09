@@ -46,10 +46,7 @@
     /* state */
     const limit = state => value => state.values.slice(0, state.base).includes(value) ? value : "0";
 
-    const emptyString = value => {
-        const trimmed = value.trim();
-        return trimmed === "" ? "0" : trimmed;
-    };
+    const emptyString = value => value === "" ? "0" : value;
 
     const charToValue = state => char => state.values.indexOf(char);
 
@@ -131,6 +128,10 @@
             root.append(charactersLabel, characters);
         }
 
+        const table = d.createElement("table");
+        addClass(table, "table");
+        root.append(table);
+
 
         // create inputs
         const fieldsContainer = d.createElement("div");
@@ -145,11 +146,10 @@
 
             const value = d.createElement("p");
             const multiplier = d.createElement("p");
-            const sum = d.createElement("p");
 
-            span.append(multiplier, value, input, sum);
+            span.append(multiplier, value, input);
 
-            return { span, input, value, multiplier, sum };
+            return { span, input, value, multiplier };
         });
 
         const inputs = fields.map(({ input }) => input);
@@ -213,12 +213,11 @@
 
             return state => {
                 if (state.inputs !== previous.inputs) {
-                    fields.forEach(({ input, multiplier, value, sum }, index) => {
+                    fields.forEach(({ input, multiplier, value }, index) => {
                         const power = fields.length - index - 1;
                         input.value = state.inputs[index];
                         multiplier.innerHTML = `${state.base}<sup>${power}</sup>`;
                         value.textContent = numberFormat(Math.pow(state.base, power));
-                        sum.textContent = `${state.sum[index][0]}×${numberFormat(state.sum[index][1])}`;
                     });
 
                     sum.textContent = "= " + state.sum.map(([val, mult]) => `(${val}×${numberFormat(mult)})`).join(" + ");
@@ -227,8 +226,30 @@
 
                 // updates bases select
                 if (initial.options.showBase && state.values !== previous.values) {
+                    const fragment = d.createDocumentFragment();
+                    state.values.map((_, index) => index + 1).filter(val => val > 1).map(createOption(state.base)).forEach(fragment.append.bind(fragment));
                     removeChildren(select);
-                    state.values.map((_, index) => index + 1).filter(val => val > 1).map(createOption(state.base)).forEach(select.append.bind(select));
+                    select.append(fragment);
+                }
+
+                if (state.values !== previous.values || state.base !== previous.base) {
+                    const display = state.values.slice(10, state.base);
+                    const fragment = d.createDocumentFragment();
+                    let tr = d.createElement("tr");
+
+                    display.forEach((value, i) => {
+                        if (i % 3 === 0) {
+                            tr = d.createElement("tr");
+                            fragment.append(tr);
+                        }
+
+                        const td = d.createElement("td");
+                        td.textContent = `'${value}' = ${i + 10}`;
+                        tr.append(td);
+                    });
+
+                    removeChildren(table);
+                    table.append(fragment);
                 }
 
                 characters.value = state.characters;
