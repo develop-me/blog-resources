@@ -4,12 +4,12 @@
 
 .output {
     font-family: monospace;
-    font-size: 80px;
+    font-size: 60px;
 }
 
 .sum {
     font-family: monospace;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 select {
@@ -22,7 +22,7 @@ input {
     color: var(--color);
     display: block;
     font-family: monospace;
-    font-size: 80px;
+    font-size: 60px;
     margin: 1px auto;
     text-align: center;
     width: 1em;
@@ -30,16 +30,12 @@ input {
 
 .input {
     display: inline-block;
-    margin: 0 20px;
+    margin: 0 15px;
 }
 
 label,
 .input p {
     font-family: monospace;
-    font-size: 20px;
+    font-size: 15px;
     text-align: center;
-}
-
-label::after {
-    content: ": ";
 }
