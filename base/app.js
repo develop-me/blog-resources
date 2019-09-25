@@ -2,12 +2,19 @@
     /* settings */
     const noOfInputs = 6;
     const defaultBase = 2;
+    const bemRoot = "base-calc";
 
     /* helper functions */
     const _ = (...fns) => fns.reduce((f, g) => (...args) => f(g(...args)));
     const range = (start, stop) => Array(stop - start + 1).fill().map((_, i) => start + i);
     const constant = val => () => val;
     const data = el => (prop, def) => typeof el.dataset[prop] === "undefined" ? def : el.dataset[prop];
+
+    const addClass = (el, cls) => {
+        el.classList.add(`${bemRoot}--${cls}`);
+        return el;
+    };
+
     const removeChildren = node => {
         while (node.firstChild) {
             node.removeChild(node.firstChild);
@@ -79,6 +86,7 @@
 
     const create = (root, initial) => {
         const store = createStore(reducer, initial);
+        addClass(root, "root");
 
         /* creating elements */
         // base dropdown
@@ -86,18 +94,23 @@
         label.textContent = "Base";
 
         const select = d.createElement("select");
+        addClass(select, "select");
 
         if (initial.options.showBase) {
             root.append(label, select);
         }
 
         // create inputs
+        const fieldsContainer = d.createElement("div");
+        addClass(fieldsContainer, "input-container");
+
         const fields = range(1, noOfInputs).map(() => {
             const span = d.createElement("span");
-            span.classList.add("input");
+            addClass(span, "input");
 
             const input = d.createElement("input");
             input.setAttribute("maxlength", "1");
+            addClass(input, "field");
 
             const value = d.createElement("p");
             const multiplier = d.createElement("p");
@@ -108,15 +121,18 @@
             return { span, input, value, multiplier, sum };
         });
 
-        fields.forEach(({ span }) => root.append(span));
         const inputs = fields.map(({ input }) => input);
+
+        fields.forEach(({ span }) => fieldsContainer.append(span));
+        root.append(fieldsContainer);
+
 
         // output
         const sum = d.createElement("p");
-        sum.classList.add("sum");
+        addClass(sum, "sum");
 
         const output = d.createElement("p");
-        output.classList.add("output");
+        addClass(output, "output");
 
         root.append(sum, output);
 

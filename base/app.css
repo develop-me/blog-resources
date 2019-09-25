@@ -1,41 +1,43 @@
-:root {
-    --color: #666;
+.base-calc--root {
+    color: #333;
+    font-family: monospace;
 }
 
-.output {
-    font-family: monospace;
+.base-calc--output {
     font-size: 60px;
 }
 
-.sum {
-    font-family: monospace;
+.base-calc--sum {
     font-size: 15px;
 }
 
-select {
+.base-calc--select {
     display: block;
     margin-bottom: 2em;
 }
 
-input {
-    border: 1px solid var(--color);
-    color: var(--color);
-    display: block;
+.base-calc--input-container {
+    display: flex;
+}
+
+.base-calc--field {
+    border: 1px solid #333;
+    color: #333;
     font-family: monospace;
     font-size: 60px;
-    margin: 1px auto;
+    line-height: 1.6em;
     text-align: center;
     width: 1em;
 }
 
-.input {
+.base-calc--input {
     display: inline-block;
     margin: 0 15px;
+    text-align: center;
 }
 
-label,
-.input p {
-    font-family: monospace;
+.base-calc--label,
+.base-calc--input p {
     font-size: 15px;
     text-align: center;
 }
