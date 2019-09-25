@@ -1,13 +1,11 @@
 ((d) => {
     /* settings */
-    const noOfInputs = 6;
     const defaultBase = 2;
     const bemRoot = "base-calc";
 
     /* helper functions */
     const _ = (...fns) => fns.reduce((f, g) => (...args) => f(g(...args)));
     const range = (start, stop) => Array(stop - start + 1).fill().map((_, i) => start + i);
-    const constant = val => () => val;
     const data = el => (prop, def) => typeof el.dataset[prop] === "undefined" ? def : el.dataset[prop];
 
     const addClass = (el, cls) => {
@@ -39,6 +37,12 @@
         return { getState, subscribe, dispatch };
     };
 
+    /* useful values */
+    const defaultChars = [
+        ...range(0, 9).map(i => i.toString()), // "0" - "9"
+        ...range(97, 122).map(i => String.fromCharCode(i)), // "a" - "z"
+    ];
+
     /* state */
     const limit = state => value => state.values.slice(0, state.base).includes(value) ? value : "0";
 
@@ -61,7 +65,7 @@
         )).reverse(),
     });
 
-    const inputsCleaner = (state) => ({
+    const inputsCleaner = state => ({
         ...state,
         inputs: state.inputs.map(limit(state)).map(emptyString),
     });
@@ -71,6 +75,20 @@
         inputs: values,
     });
 
+    const unique = (chars, char) => chars.includes(char) || defaultChars.includes(char) ? chars : chars.concat(char);
+
+    const characters = (state, { characters }) => {
+        const valid = Array.from(characters).reduce(unique, []);
+        const all = defaultChars.concat(valid);
+
+        return {
+            ...state,
+            base: state.values.length === all.length ? state.base : all.length,
+            characters: valid.join(""),
+            values: all,
+        };
+    };
+
     const baseReducer = (state, { base }) => ({ ...state, base });
 
     // functions that all reducers use
@@ -78,8 +96,10 @@
 
     const reducer = (state, action) => {
         switch (action.type) {
+            case "go": return normalise(state);
             case "base": return normalise(baseReducer(state, action));
             case "inputs": return normalise(inputsReducer(state, action));
+            case "characters": return characters(state, action);
             default: return state;
         }
     };
@@ -90,26 +110,37 @@
 
         /* creating elements */
         // base dropdown
-        const label = d.createElement("label");
-        label.textContent = "Base";
+        const baseLabel = d.createElement("label");
+        baseLabel.textContent = "Base";
 
         const select = d.createElement("select");
         addClass(select, "select");
 
         if (initial.options.showBase) {
-            root.append(label, select);
+            root.append(baseLabel, select);
         }
+
+
+        // additional characters
+        const charactersLabel = d.createElement("label");
+        charactersLabel.textContent = "Additional Characters";
+
+        const characters = d.createElement("input");
+
+        if (initial.options.showBase) {
+            root.append(charactersLabel, characters);
+        }
+
 
         // create inputs
         const fieldsContainer = d.createElement("div");
         addClass(fieldsContainer, "input-container");
 
-        const fields = range(1, noOfInputs).map(() => {
+        const fields = range(1, initial.inputs.length).map(() => {
             const span = d.createElement("span");
             addClass(span, "input");
 
             const input = d.createElement("input");
-            input.setAttribute("maxlength", "1");
             addClass(input, "field");
 
             const value = d.createElement("p");
@@ -145,6 +176,10 @@
 
             if (e.target === select) {
                 store.dispatch({ type: "base", base: +select.value });
+            }
+
+            if (e.target === characters) {
+                store.dispatch({ type: "characters", characters: characters.value });
             }
         };
 
@@ -191,10 +226,12 @@
                 }
 
                 // updates bases select
-                if (state.values !== previous.values) {
+                if (initial.options.showBase && state.values !== previous.values) {
                     removeChildren(select);
-                    state.values.map((_, index) => index + 1).filter(val => val > 1).map(createOption(state.base)).forEach(select.appendChild.bind(select));
+                    state.values.map((_, index) => index + 1).filter(val => val > 1).map(createOption(state.base)).forEach(select.append.bind(select));
                 }
+
+                characters.value = state.characters;
 
                 previous = state;
             };
@@ -211,19 +248,18 @@
     const setup = element => {
         const ds = data(element);
         const base = ds("base", defaultBase);
+        const inputs = Array.from(ds("default", "000000"));
 
         const config = {
             options: {
                 showBase: ds("base", 0) === 0,
             },
-            inputs: range(1, noOfInputs).map(constant("0")),
+            inputs: inputs,
             output: 0,
             base: base,
-            values: [
-                ...range(0, 9).map(i => i.toString()), // "0" - "9"
-                ...range(97, 122).map(i => String.fromCharCode(i)), // "a" - "z"
-            ],
-            sum: range(0, noOfInputs - 1).reverse().map(power => [0, Math.pow(base, power)]),
+            values: defaultChars,
+            characters: "",
+            sum: range(0, inputs.length - 1).reverse().map(power => [0, Math.pow(base, power)]),
         };
 
         create(element, config);
