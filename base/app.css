@@ -1,0 +1,45 @@
+:root {
+    --color: #666;
+}
+
+.output {
+    font-family: monospace;
+    font-size: 80px;
+}
+
+.sum {
+    font-family: monospace;
+    font-size: 20px;
+}
+
+select {
+    display: block;
+    margin-bottom: 2em;
+}
+
+input {
+    border: 1px solid var(--color);
+    color: var(--color);
+    display: block;
+    font-family: monospace;
+    font-size: 80px;
+    margin: 1px auto;
+    text-align: center;
+    width: 1em;
+}
+
+.input {
+    display: inline-block;
+    margin: 0 20px;
+}
+
+label,
+.input p {
+    font-family: monospace;
+    font-size: 20px;
+    text-align: center;
+}
+
+label::after {
+    content: ": ";
+}
