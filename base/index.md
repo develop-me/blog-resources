@@ -1,8 +1,8 @@
 ---
 layout: default
 title: All Your Base Are Belong To Us
-js: /base/app.js
-css: /base/app.css
+js: app.js
+css: app.css
 ---
 
 There's an important difference between a number and how we *represent* that number.
