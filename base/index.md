@@ -9,7 +9,7 @@ There's an important difference between a number and how we *represent* that num
 
 For example, no matter how we represent it the number ten is always even, it's always equal to two multiplied by five, and it's always the square-root of one hundred. But we can represent it in lots of different ways: the word “ten”, the Roman numeral “X”, or, most commonly, the decimal representation “10”.
 
-“**Dec**imal” just means a number system based on ten - in the same way that a **dec**ade is ten years, a **dec**agon has ten sides, and **Dec**ember is the tenth month ([if you're a Roman](https://en.wikipedia.org/wiki/Roman_calendar#Republican_calendar)). Such a number system is also known as “Base 10”.
+“**Dec**imal” just means a number system based on ten - in the same way that a **dec**ade is ten years, a **dec**agon has ten sides, and **Dec**ember is the tenth month… [if you're a Roman](https://en.wikipedia.org/wiki/Roman_calendar#Republican_calendar). Such a number system is also known as “Base 10”.
 
 But decimal isn't the only way to represent numbers and, importantly, it's not the way that computers represent numbers internally.
 
@@ -55,26 +55,26 @@ That is, any number to the power of 0 is 1. This is far from obvious, but [can b
 Now, getting back to “1,024” in decimal: four **one**s, two **ten**s, zero **hundred**s, and one **thousand**. You'll notice that going right from left, each symbol represents the number of the next power of ten. We could write it as follows:
 
 <div style="text-align:center">
-    (4 × 10<sup>0</sup>) + (2 × 10<sup>1</sup>) + (0 × 10<sup>2</sup>) + (1 × 10<sup>3</sup>)
+(4 × 10<sup>0</sup>) + (2 × 10<sup>1</sup>) + (0 × 10<sup>2</sup>) + (1 × 10<sup>3</sup>)
 </div>
 
 Or in the order we write numbers:
 
 <div style="text-align:center">
-    (1 × 10<sup>3</sup>) + (0 × 10<sup>2</sup>) + (2 × 10<sup>1</sup>) + (4 × 10<sup>0</sup>)
+(**1** × 10<sup>3</sup>) + (**0** × 10<sup>2</sup>) + (**2** × 10<sup>1</sup>) + (**4** × 10<sup>0</sup>)
 </div>
 
 Try typing different values into each part below to see it broken down:
 
 <div class="js__base" data-base="10" data-default="1024"></div>
 
-Hopefully there shouldn't be anything too surprising here: we are all so used to working with decimal numbers that the above example probably seems somewhat pointless.
+Hopefully there shouldn't be anything too surprising here: we are all used to working with decimal numbers, so the above example probably seems somewhat pointless.
 
 But there's nothing inherently better about representing numbers in the decimal system.
 
 ## Base 2: Binary
 
-“Binary” just means that rather than using 10 as the base, we use 2 instead. It's the system that computers use to store pretty much everything.
+“Binary” just means that rather than using 10 as the base, we use 2 instead. It's the system that computers use to represent pretty much everything.
 
 For example consider the decimal “10”. In binary this is “1010”. Going from the *right*most symbol:
 
@@ -85,26 +85,26 @@ For example consider the decimal “10”. In binary this is “1010”. Going f
 
 <div class="js__base" data-base="2" data-default="1010"></div>
 
-Any number that can be stored in a decimal representation can also be stored in a binary representation.
+Any number that can be represented in decimal can also be represented in binary.
 
 There are pros and cons to storing things in binary. The obvious disadvantage is that most people don't find binary very easy to read.
 
 > There are only 10 types of people: those that understand binary and those that don't
 
-You'll also notice that the numbers are much longer: “15” requires four symbols and to store “1024” requires eleven symbols.
+You'll also notice that the numbers are much longer: “15” requires four symbols and to represent “1024” requires eleven symbols.
 
 But binary has one really nice advantage. You only need two values: “0” and “1”. These can be represented physically with *low* voltage and *high* voltage in electronic circuitry, making it perfect for computers.
 
 It would be perfectly possible to create a computer that used the decimal system for representing numbers. But, computers have to store and transmit data physically, so to store ten possible symbols you'd need ten different physical states.
 
-Have a play with binary below (you won't be able to get higher than 63):
+Have a play with binary below. Remember you can only use “0” and “1” and you won't be able to get higher than 63:
 
 <div class="js__base" data-base="2" data-default="101010"></div>
 
 
 ## Base 16: Hexadecimal
 
-Binary is great for computers, but, as we've already said, it's not very good for humans. Unfortunately if you convert a binary number to a decimal number there's not a consistent mapping between the number of symbols required to store it: the four symbols binary number “1000” is “8” in decimal (one symbol) but the binary number “1010” is “10” in decimal (two symbols). This makes it difficult to work with.
+Binary is great for computers, but, as we've already said, it's not very good for humans. Unfortunately if you convert a binary number to a decimal number there's not a consistent mapping between the number of symbols required to represent it: the four symbols binary number “1000” is “8” in decimal (one symbol) but the binary number “1010” is “10” in decimal (two symbols). This makes it difficult to work with.
 
 If the base we use is a *power* of the original base, you will always get a consistent mapping. In the case of Base 16 (2<sup>4</sup>), four symbols of binary will always equal one symbol of hexadecimal.
 
