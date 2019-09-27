@@ -52,15 +52,23 @@
 
     const outputReducer = state => ({
         ...state,
-        output: state.sum.reduce((total, [value, mult]) => total + (value * mult), 0),
+        output: state.sum.reduce((total, [[], [value, mult]]) => total + (value * mult), 0),
     });
 
-    const sumReducer = state => ({
-        ...state,
-        sum: state.inputs.map(charToValue(state)).reverse().map((value, index) => (
-            [value, Math.pow(state.base, index)]
-        )).reverse(),
-    });
+    const sumReducer = state => {
+        const toChar = charToValue(state);
+
+        return {
+            ...state,
+            sum: state.inputs.slice().reverse().map((value, index) => (
+                [
+                    [value, state.base, index],
+                    [toChar(value), Math.pow(state.base, index)],
+                ]
+            )).reverse(),
+        };
+    };
+
 
     const inputsCleaner = state => ({
         ...state,
@@ -69,13 +77,13 @@
 
     const inputsReducer = (state, { values }) => ({
         ...state,
-        inputs: values,
+        inputs: values.map(str => str.toLowerCase()),
     });
 
     const unique = (chars, char) => chars.includes(char) || defaultChars.includes(char) ? chars : chars.concat(char);
 
     const characters = (state, { characters }) => {
-        const valid = Array.from(characters).reduce(unique, []);
+        const valid = Array.from(characters.toLowerCase()).reduce(unique, []);
         const all = defaultChars.concat(valid);
 
         return {
@@ -86,17 +94,17 @@
         };
     };
 
-    const baseReducer = (state, { base }) => ({ ...state, base });
+    const hover = (state, { hover }) => ({ ...state, hover });
 
     // functions that all reducers use
     const normalise = _(outputReducer, sumReducer, inputsCleaner);
 
     const reducer = (state, action) => {
         switch (action.type) {
-            case "go": return normalise(state);
-            case "base": return normalise(baseReducer(state, action));
+            case "go": return normalise(characters(state, { characters: state.characters }));
             case "inputs": return normalise(inputsReducer(state, action));
-            case "characters": return characters(state, action);
+            case "characters": return normalise(characters(state, action));
+            case "hover": return hover(state, action);
             default: return state;
         }
     };
@@ -106,31 +114,22 @@
         addClass(root, "root");
 
         /* creating elements */
-        // base dropdown
-        const baseLabel = d.createElement("label");
-        baseLabel.textContent = "Base";
-
-        const select = d.createElement("select");
-        addClass(select, "select");
-
-        if (initial.options.showBase) {
-            root.append(baseLabel, select);
-        }
-
-
         // additional characters
         const charactersLabel = d.createElement("label");
+        addClass(charactersLabel, "characters-label");
         charactersLabel.textContent = "Additional Characters";
 
         const characters = d.createElement("input");
+        addClass(characters, "characters");
 
         if (initial.options.showBase) {
             root.append(charactersLabel, characters);
         }
 
-        const table = d.createElement("table");
-        addClass(table, "table");
-        root.append(table);
+        // base header
+        const baseHeader = d.createElement("h4");
+        addClass(baseHeader, "base-header");
+        root.append(baseHeader);
 
 
         // create inputs
@@ -141,11 +140,13 @@
             const span = d.createElement("span");
             addClass(span, "input");
 
-            const input = d.createElement("input");
-            addClass(input, "field");
+            const multiplier = d.createElement("p");
+            addClass(multiplier, "multiplier");
 
             const value = d.createElement("p");
-            const multiplier = d.createElement("p");
+
+            const input = d.createElement("input");
+            addClass(input, "field");
 
             span.append(multiplier, value, input);
 
@@ -162,10 +163,23 @@
         const sum = d.createElement("p");
         addClass(sum, "sum");
 
+        const sumParsed = d.createElement("p");
+        addClass(sumParsed, "sum");
+
         const output = d.createElement("p");
         addClass(output, "output");
 
-        root.append(sum, output);
+        root.append(sum, sumParsed, output);
+
+
+        // dictionary
+        const dictionaryHeader = d.createElement("h4");
+        addClass(dictionaryHeader, "dictionary-header");
+        dictionaryHeader.textContent = "Lookup Table";
+
+        const dictionary = d.createElement("ul");
+        addClass(dictionary, "dictionary");
+        root.append(dictionaryHeader, dictionary);
 
 
         /* events */
@@ -174,82 +188,81 @@
                 store.dispatch({ type: "inputs", values: inputs.map(input => input.value) });
             }
 
-            if (e.target === select) {
-                store.dispatch({ type: "base", base: +select.value });
-            }
-
             if (e.target === characters) {
                 store.dispatch({ type: "characters", characters: characters.value });
             }
         };
 
-        const focus = (e) => {
+        const hoverOver = e => {
             if (inputs.includes(e.target)) {
-                e.target.select();
+                store.dispatch({ type: "hover", hover: inputs.indexOf(e.target) });
+            }
+        };
+
+        const hoverOut = e => {
+            if (inputs.includes(e.target) && e.target !== d.activeElement) {
+                store.dispatch({ type: "hover", hover: -1 });
             }
         };
 
         root.addEventListener("input", input);
-        root.addEventListener("focusin", focus);
+        root.addEventListener("mouseover", hoverOver);
+        root.addEventListener("mouseout", hoverOut);
+        root.addEventListener("focusin", hoverOver);
+        root.addEventListener("focusout", hoverOut);
 
 
         /* render */
         const numberFormat = new Intl.NumberFormat().format;
 
-        const createOption = base => val => {
-            const opt = d.createElement("option");
-            opt.textContent = val;
-            opt.value = val;
+        const span = txt => `<span class=${bemRoot}--highlight>${txt}</span>`;
+        const noWrap = txt => `<span class=${bemRoot}--no-wrap>${txt}</span>`;
 
-            if (base === val) {
-                opt.setAttribute("selected", "selected");
-            }
-
-            return opt;
-        };
+        const highlight = hover => (txt, i) => hover === i ? span(txt) : txt;
 
         const render = () => {
             let previous = {};
 
             return state => {
-                if (state.inputs !== previous.inputs) {
+                const highlightFn = highlight(state.hover);
+
+                if (state.hover !== previous.hover || state.base !== previous.base || state.inputs !== previous.inputs) {
                     fields.forEach(({ input, multiplier, value }, index) => {
                         const power = fields.length - index - 1;
                         input.value = state.inputs[index];
                         multiplier.innerHTML = `${state.base}<sup>${power}</sup>`;
                         value.textContent = numberFormat(Math.pow(state.base, power));
+
+                        const method = state.hover === index ? "add" : "remove";
+                        input.classList[method](`${bemRoot}--highlight`);
                     });
 
-                    sum.textContent = "= " + state.sum.map(([val, mult]) => `(${val}×${numberFormat(mult)})`).join(" + ");
+                    sum.innerHTML = "= " + state.sum.map(([y]) => y).map(([val, base, power]) => `(${val} × ${base}<sup>${ power }</sup>)`).map(highlightFn).map(noWrap).join(" + ");
+                    sumParsed.innerHTML = "= " + state.sum.map(([, x]) => x).map(([val, mult]) => `(${val} × ${numberFormat(mult)})`).map(highlightFn).map(noWrap).join(" + ");
                     output.textContent = "= " + numberFormat(state.output);
                 }
 
-                // updates bases select
-                if (initial.options.showBase && state.values !== previous.values) {
-                    const fragment = d.createDocumentFragment();
-                    state.values.map((_, index) => index + 1).filter(val => val > 1).map(createOption(state.base)).forEach(fragment.append.bind(fragment));
-                    removeChildren(select);
-                    select.append(fragment);
+                // updates base header
+                if (state.base !== previous.base) {
+                    baseHeader.textContent = `Base ${state.base} to Decimal Converter`;
                 }
 
                 if (state.values !== previous.values || state.base !== previous.base) {
                     const display = state.values.slice(10, state.base);
                     const fragment = d.createDocumentFragment();
-                    let tr = d.createElement("tr");
 
                     display.forEach((value, i) => {
-                        if (i % 3 === 0) {
-                            tr = d.createElement("tr");
-                            fragment.append(tr);
-                        }
-
-                        const td = d.createElement("td");
-                        td.textContent = `'${value}' = ${i + 10}`;
-                        tr.append(td);
+                        const li = d.createElement("li");
+                        li.textContent = `'${value}' = ${i + 10}`;
+                        fragment.append(li);
                     });
 
-                    removeChildren(table);
-                    table.append(fragment);
+                    const method = display.length === 0 ? "add" : "remove";
+                    dictionaryHeader.classList[method]("hidden");
+                    dictionary.classList[method]("hidden");
+
+                    removeChildren(dictionary);
+                    dictionary.append(fragment);
                 }
 
                 characters.value = state.characters;
@@ -270,6 +283,7 @@
         const ds = data(element);
         const base = ds("base", defaultBase);
         const inputs = Array.from(ds("default", "000000"));
+        const characters = ds("characters", "");
 
         const config = {
             options: {
@@ -277,9 +291,10 @@
             },
             inputs: inputs,
             output: 0,
+            hover: -1,
             base: base,
             values: defaultChars,
-            characters: "",
+            characters: characters,
             sum: range(0, inputs.length - 1).reverse().map(power => [0, Math.pow(base, power)]),
         };
 

@@ -1,14 +1,36 @@
 .base-calc--root {
-    color: #333;
+    background: #eff4f1;
+    border-radius: 10px;
+    border: 1px solid #00e6b8;
+    color: #335157;
     font-family: monospace;
+    margin: 2em 0;
+    padding: 20px;
+}
+
+.base-calc--characters-label {
+    display: block;
+}
+
+.base-calc--characters {
+    margin-bottom: 2em;
+}
+
+.base-calc--base-header {
+    color: #335157;
+    font-family: monospace;
+    font-size: 1.2em;
+    margin-top: 0;
 }
 
 .base-calc--output {
     font-size: 60px;
+    margin-bottom: 0;
     text-align: center;
 }
 
 .base-calc--sum {
+    color: #378e83;
     font-size: 18px;
     text-align: center;
 }
@@ -24,12 +46,25 @@
 }
 
 .base-calc--field {
-    color: #333;
+    color: #335157;
     font-family: monospace;
     font-size: 60px;
     line-height: 1.6em;
     text-align: center;
-    width: 1em;
+    width: 1.5em;
+}
+
+.base-calc--field.base-calc--highlight {
+    outline-color: #ff306a;
+}
+
+.base-calc--highlight,
+.base-calc--multiplier {
+    color: #ff306a;
+}
+
+.base-calc--no-wrap {
+    display: inline-block;
 }
 
 .base-calc--input {
@@ -40,14 +75,17 @@
 
 .base-calc--label,
 .base-calc--input p {
-    font-size: 15px;
+    font-size: 18px;
     text-align: center;
 }
 
-.base-calc--table {
-    width: 100%;
+.base-calc--dictionary {
+    columns: 3 auto;
 }
 
-.base-calc--table td {
-    padding: 3px 10px;
+.base-calc--dictionary-header {
+    border-top: 1px solid #00e6b8;
+    color: #378e83;
+    font-family: monospace;
+    padding-top: 1em;
 }
