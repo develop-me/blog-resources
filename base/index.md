@@ -13,7 +13,7 @@ For example, no matter how we represent it, the number ten is always even, it's 
 
 But decimal isn't the only way to represent numbers and, importantly, it's not the way that computers represent numbers internally.
 
-But before we look at the alternatives, let's look at decimal in a bit more detail.
+But before we look at the alternatives, let's look at the decimal system in a bit more detail.
 
 ## Base 10: Decimal
 
@@ -21,8 +21,8 @@ Most people, most of the time, use the decimal system for writing out numbers. I
 
 Consider the decimal number “1,024” - what does that actually mean? Starting from the *right*, it means:
 
-- Four **one**s
-- plus two **ten**s (also known as “twenty”)
+- Four **one**s (sometimes called “units”)
+- plus two **ten**s
 - plus zero **hundred**s
 - plus one **thousand**
 
@@ -30,9 +30,9 @@ In other words: (4 × 1) + (2 × 10) + (0 × 100) + (1 × 1,000). Which gives us
 
 ---
 
-Now, I'm about to get a bit mathsy on you. Some people are scared of maths and switch off the second they see it. But I'm not going to be doing anything complicated, just using “powers”.
+Now, I'm about to get a bit mathsy on you. Some people are scared of maths and switch off the second they see it. But the only bit of maths you need to know is “powers”, which I will now explain.
 
-A number, x, to some power, y – written x<sup>y</sup> – just means multiplying x by itself y times. For example:
+A number, 𝑥, to some power, 𝑦 – written 𝑥<sup>𝑦</sup> – just means multiplying 𝑥 by itself 𝑦 times. For example:
 
 - 10<sup>2</sup> = 10 × 10 = 100
 - 10<sup>3</sup> = 10 × 10 × 10 = 1,000
@@ -74,7 +74,7 @@ But there's nothing inherently better about representing numbers in the decimal 
 
 ## Base 2: Binary
 
-“Binary” just means that rather than using 10 as the base, we use 2 instead. It's the system that computers use to represent pretty much everything.
+“Binary” means rather than using 10 as the base, we use 2 instead. It's the system that computers use to represent pretty much everything.
 
 For example consider the decimal “10”. In binary this is “1010”. Going from the *right*most symbol:
 
@@ -91,7 +91,7 @@ There are pros and cons to storing things in binary. The obvious disadvantage is
 
 > There are only 10 types of people: those that understand binary and those that don't
 
-You'll also notice that the numbers are much longer: “15” requires four symbols and to represent “1024” requires eleven symbols.
+You'll also notice that the numbers are much longer: “15” requires four symbols in binary and to represent “1024” requires eleven symbols.
 
 But binary has one really nice advantage. You only need two values: “0” and “1”. These can be represented physically with *low* voltage and *high* voltage in electronic circuitry, making it perfect for computers.
 
@@ -104,11 +104,9 @@ Have a play with binary below. Remember you can only use “0” and “1” and
 
 ## Base 16: Hexadecimal
 
-Binary is great for computers, but, as we've already said, it's not very good for humans. Unfortunately if you convert a binary number to a decimal number there's not a consistent mapping between the number of symbols required to represent it: the four symbols binary number “1000” is “8” in decimal (one symbol) but the binary number “1010” is “10” in decimal (two symbols). This makes it difficult to work with.
+For any base above 10, you'll notice that we run out of digits: 0-9 only gives us ten options.
 
-If the base we use is a *power* of the original base, you will always get a consistent mapping. In the case of Base 16 (2<sup>4</sup>), four symbols of binary will always equal one symbol of hexadecimal.
-
-However, you'll notice that we run out of digits: 0-9 only gives us ten options. So we need some more symbols to use. Rather than making up some new symbols, it's easiest just to use ones we've already got, so we use the letters “a” to “f”, giving us 16 characters (including 0):
+So for Base 16 we need some more symbols to use. Rather than making up some new symbols, it's easiest just to use ones we've already got, so we add the letters “a” to “f” on the end of 0-9, giving us 16 characters (including 0):
 
 - “a” = 10
 - “b” = 11
@@ -120,6 +118,38 @@ However, you'll notice that we run out of digits: 0-9 only gives us ten options.
 This can look rather strange to start with, but, once you get used to it, it starts to make sense.
 
 <div class="js__base" data-base="16" data-default="beef42"></div>
+
+Binary is great for computers, but, as we've already said, it's not very good for humans. Unfortunately if you convert a binary number to a decimal number there's not a consistent mapping between the number of symbols required to represent it: the four symbol binary number “1000” is “8” in decimal (one symbol) but the binary number “1010” is “10” in decimal (two symbols). This makes it difficult to work with.
+
+However, if the base we use is a *power* of the original base, you will always get a consistent number of symbols. In the case of Base 16 (2<sup>4</sup>), four symbols of binary will always equal one symbol of hexadecimal:
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Binary</th>
+            <th>Hexadecimal</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>0001</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1001</td>
+            <td>9</td>
+        </tr>
+        <tr>
+            <td>1010</td>
+            <td>a</td>
+        </tr>
+        <tr>
+            <td>1111</td>
+            <td>f</td>
+        </tr>
+    </tbody>
+</table>
+
 
 If you really get into hexadecimal then you can learn to [count in hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal#Verbal_and_digital_representations) and [speak in hexadecimal](https://en.wikipedia.org/wiki/Hexspeak).
 
@@ -141,6 +171,8 @@ But let's not let that get in the way...
 ## All About That Base
 
 Below is a converter where you can add as many symbols as you like to create your own base. I've added a few for you to start with.
+
+<small>(Tip: on a Mac you can use the “Emojii & Symbols” menu in “Edit” to add emojii)</small>
 
 <div class="js__base" data-default="🐶🦡🗿💩🐶" data-characters="🐶🦡🗿💩"></div>
 

@@ -119,7 +119,7 @@
         const characters = d.createElement("input");
         addClass(characters, "characters");
 
-        if (initial.options.showBase) {
+        if (initial.options.characters) {
             root.append(charactersLabel, characters);
         }
 
@@ -286,7 +286,7 @@
 
         const config = {
             options: {
-                showBase: ds("base", 0) === 0,
+                characters: ds("base", 0) === 0,
             },
             inputs: inputs,
             output: 0,
