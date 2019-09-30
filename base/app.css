@@ -52,10 +52,10 @@
 .base-calc--field {
     color: #335157;
     font-family: monospace;
-    font-size: 32px;
+    font-size: 20px;
     line-height: 1.6em;
     text-align: center;
-    width: 1.5em;
+    width: 2em;
 }
 
 .base-calc--field.base-calc--highlight {
@@ -106,13 +106,21 @@
     padding-top: 1em;
 }
 
+@media only screen and (min-width: 380px) {
+    .base-calc--field {
+        font-size: 28px;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+    .base-calc--field {
+        font-size: 36px;
+    }
+}
+
 @media only screen and (min-width: 992px) {
     .base-calc--value {
         display: block;
-    }
-
-    .base-calc--field {
-        font-size: 45px;
     }
 
     .base-calc--dictionary {
@@ -127,7 +135,7 @@
     }
 
     .base-calc--field {
-        font-size: 60px;
+        font-size: 42px;
     }
 
     .base-calc--input {
