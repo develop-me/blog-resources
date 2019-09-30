@@ -44,15 +44,15 @@
     ];
 
     /* state */
-    const limit = state => value => state.values.slice(0, state.base).includes(value) ? value : "0";
+    const limit = state => value => (value === "" || state.values.slice(0, state.base).includes(value)) ? value : "0";
 
-    const emptyString = value => value === "" ? "0" : value;
+    const first = str => str.length > 1 ? Array.from(str)[0] : str;
 
     const charToValue = state => char => state.values.indexOf(char);
 
     const outputReducer = state => ({
         ...state,
-        output: state.sum.reduce((total, [[], [value, mult]]) => total + (value * mult), 0),
+        output: state.sum.reduce((total, [, [value, mult]]) => total + (value * mult), 0),
     });
 
     const sumReducer = state => {
@@ -60,19 +60,16 @@
 
         return {
             ...state,
-            sum: state.inputs.slice().reverse().map((value, index) => (
-                [
-                    [value, state.base, index],
-                    [toChar(value), Math.pow(state.base, index)],
-                ]
-            )).reverse(),
+            sum: state.inputs.slice().reverse().map((value, index) => ([
+                [value === "" ? 0 : value, state.base, index],
+                [value === "" ? 0 : toChar(value), Math.pow(state.base, index)],
+            ])).reverse(),
         };
     };
 
-
     const inputsCleaner = state => ({
         ...state,
-        inputs: state.inputs.map(limit(state)).map(emptyString),
+        inputs: state.inputs.map(first).map(limit(state)),
     });
 
     const inputsReducer = (state, { values }) => ({
@@ -147,6 +144,7 @@
             addClass(value, "value");
 
             const input = d.createElement("input");
+            input.setAttribute("placeholder", "0");
             addClass(input, "field");
 
             span.append(multiplier, value, input);

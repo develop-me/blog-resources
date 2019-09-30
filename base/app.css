@@ -62,12 +62,12 @@
     outline-color: #ff306a;
 }
 
-.base-calc--highlight,
-.base-calc--multiplier {
+.base-calc--highlight {
     color: #ff306a;
 }
 
 .base-calc--multiplier {
+    font-weight: bold;
     margin-bottom: 5px;
 }
 
@@ -114,6 +114,10 @@
     .base-calc--field {
         font-size: 45px;
     }
+
+    .base-calc--dictionary {
+        columns: 3 auto;
+    }
 }
 
 @media only screen and (min-width: 1200px) {
@@ -128,10 +132,6 @@
 
     .base-calc--input {
         margin: 0 15px;
-    }
-
-    .base-calc--dictionary {
-        columns: 3 auto;
     }
 
     .base-calc--output {

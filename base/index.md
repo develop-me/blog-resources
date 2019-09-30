@@ -7,7 +7,7 @@ css: app.css
 
 There's an important difference between a number and how we *represent* that number.
 
-For example, no matter how we represent it the number ten is always even, it's always equal to two multiplied by five, and it's always the square-root of one hundred. But we can represent it in lots of different ways: the word “ten”, the Roman numeral “X”, or, most commonly, the decimal representation “10”.
+For example, no matter how we represent it, the number ten is always even, it's always equal to two multiplied by five, and it's always the square-root of one hundred. But we can represent it in lots of different ways: the word “ten”, the Roman numeral “X”, or, most commonly, the decimal representation “10”.
 
 “**Dec**imal” just means a number system based on ten - in the same way that a **dec**ade is ten years, a **dec**agon has ten sides, and **Dec**ember is the tenth month… [if you're a Roman](https://en.wikipedia.org/wiki/Roman_calendar#Republican_calendar). Such a number system is also known as “Base 10”.
 
@@ -30,7 +30,7 @@ In other words: (4 × 1) + (2 × 10) + (0 × 100) + (1 × 1,000). Which gives us
 
 ---
 
-Now, I'm about to get a bit mathsy on you. Some people are scared of maths and switch off the second that they see it. But I'm not going to be doing anything complicated, just using “powers”.
+Now, I'm about to get a bit mathsy on you. Some people are scared of maths and switch off the second they see it. But I'm not going to be doing anything complicated, just using “powers”.
 
 A number, x, to some power, y – written x<sup>y</sup> – just means multiplying x by itself y times. For example:
 
@@ -119,7 +119,7 @@ However, you'll notice that we run out of digits: 0-9 only gives us ten options.
 
 This can look rather strange to start with, but, once you get used to it, it starts to make sense.
 
-<div class="js__base" data-base="16" data-default="12beef"></div>
+<div class="js__base" data-base="16" data-default="beef42"></div>
 
 If you really get into hexadecimal then you can learn to [count in hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal#Verbal_and_digital_representations) and [speak in hexadecimal](https://en.wikipedia.org/wiki/Hexspeak).
 
