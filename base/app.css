@@ -13,7 +13,11 @@
 }
 
 .base-calc--characters {
+    font-size: 30px;
+    letter-spacing: 0.5em;
     margin-bottom: 2em;
+    padding: 5px 10px;
+    width: 100%;
 }
 
 .base-calc--base-header {
@@ -24,7 +28,7 @@
 }
 
 .base-calc--output {
-    font-size: 60px;
+    font-size: 35px;
     margin-bottom: 0;
     text-align: center;
 }
@@ -48,7 +52,7 @@
 .base-calc--field {
     color: #335157;
     font-family: monospace;
-    font-size: 60px;
+    font-size: 32px;
     line-height: 1.6em;
     text-align: center;
     width: 1.5em;
@@ -63,24 +67,36 @@
     color: #ff306a;
 }
 
+.base-calc--multiplier {
+    margin-bottom: 5px;
+}
+
+.base-calc--value {
+    display: none;
+}
+
 .base-calc--no-wrap {
     display: inline-block;
 }
 
 .base-calc--input {
-    display: inline-block;
-    margin: 0 15px;
+    flex-grow: 1;
     text-align: center;
 }
 
 .base-calc--label,
 .base-calc--input p {
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
 }
 
 .base-calc--dictionary {
-    columns: 3 auto;
+    columns: 2 auto;
+    padding-left: 0;
+}
+
+.base-calc--dictionary li {
+    list-style: none;
 }
 
 .base-calc--dictionary-header {
@@ -88,4 +104,37 @@
     color: #378e83;
     font-family: monospace;
     padding-top: 1em;
+}
+
+@media only screen and (min-width: 992px) {
+    .base-calc--value {
+        display: block;
+    }
+
+    .base-calc--field {
+        font-size: 45px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .base-calc--label,
+    .base-calc--input p {
+        font-size: 18px;
+    }
+
+    .base-calc--field {
+        font-size: 60px;
+    }
+
+    .base-calc--input {
+        margin: 0 15px;
+    }
+
+    .base-calc--dictionary {
+        columns: 3 auto;
+    }
+
+    .base-calc--output {
+        font-size: 60px;
+    }
 }

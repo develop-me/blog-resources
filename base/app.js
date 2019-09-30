@@ -144,6 +144,7 @@
             addClass(multiplier, "multiplier");
 
             const value = d.createElement("p");
+            addClass(value, "value");
 
             const input = d.createElement("input");
             addClass(input, "field");
