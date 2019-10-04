@@ -1,6 +1,6 @@
 ---
 layout: default
-title: All Your Base Are Belong To Us
+title: All About That Base
 js: app.js
 css: app.css
 ---
@@ -168,7 +168,7 @@ Unfortunately, there's no standard set of symbols once you get past 0-9 and a-z,
 
 But let's not let that get in the way...
 
-## All About That Base
+## All Your Base Are Belong To Us
 
 Below is a converter where you can add as many symbols as you like to create your own base. I've added a few for you to start with.
 
